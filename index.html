@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!--
+    Шырайлым, если ты открыла этот файл — привет, моё солнышко ☀️
+    Вся эта история написана для тебя. Ты самая лучшая и лучезарная.
+    Твой Абоська 💕
+-->
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шырайлым · мой мир — это ты ☀️</title>
+    <meta name="description" content="Маленькая пиксельная игра-подарок для самого любимого человека.">
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Handjet:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="game" id="game">
+        <!-- дальше начинается наш маленький закатный городок -->
+        <canvas id="world" width="320" height="180" aria-label="Пиксельный закатный городок"></canvas>
+
+        <!-- твои сердечки и кнопка, чтобы включить музыку -->
+        <div class="hud" id="hud">
+            <div class="hud__hearts">
+                <span class="hud__label">сердечки</span>
+                <div class="pips" id="pips" aria-live="polite"></div>
+            </div>
+            <button class="icon-btn" id="soundBtn" type="button" aria-label="Выключить звук" aria-pressed="true">♪</button>
+        </div>
+
+        <!-- маленькая подсказка, чтобы ты не потерялась -->
+        <p class="hint" id="hint">Стрелки или WASD — идти</p>
+
+        <!-- эти кнопки — для твоих пальчиков, если ты с телефона -->
+        <div class="touch" id="touch">
+            <div class="dpad" aria-label="Кнопки движения">
+                <button class="dpad__btn dpad__btn--up" data-key="up" type="button" aria-label="Вверх">▲</button>
+                <button class="dpad__btn dpad__btn--left" data-key="left" type="button" aria-label="Влево">◀</button>
+                <button class="dpad__btn dpad__btn--down" data-key="down" type="button" aria-label="Вниз">▼</button>
+                <button class="dpad__btn dpad__btn--right" data-key="right" type="button" aria-label="Вправо">▶</button>
+            </div>
+            <button class="action-btn" id="actionBtn" type="button" aria-label="Открыть">
+                <span class="action-btn__heart" aria-hidden="true"></span>
+                <span class="action-btn__key">E</span>
+            </button>
+        </div>
+
+        <!-- здесь мои слова, которые прячутся в сердечках -->
+        <div class="note" id="note" aria-hidden="true">
+            <div class="note__card" role="dialog" aria-modal="true" aria-labelledby="noteTitle">
+                <span class="note__heart" aria-hidden="true"></span>
+                <p class="note__eyebrow" id="noteTitle">сердечко 1 / 5</p>
+                <p class="note__text" id="noteText"></p>
+                <button class="pixel-btn pixel-btn--small" id="noteBtn" type="button">Дальше</button>
+            </div>
+        </div>
+
+        <!-- котик тоже передаёт тебе привет -->
+        <div class="note note--cat" id="catNote" aria-hidden="true">
+            <div class="note__card" role="dialog" aria-modal="true" aria-labelledby="catTitle">
+                <span class="note__paw" aria-hidden="true">🐾</span>
+                <p class="note__eyebrow" id="catTitle">котик мурчит</p>
+                <p class="note__text" id="catText"></p>
+                <div class="note__gif" id="catGifWrap" hidden>
+                    <img id="catGif" alt="Котик для Шырайлым">
+                </div>
+                <p class="note__sign" id="catSign"></p>
+                <button class="pixel-btn pixel-btn--small" id="catBtn" type="button">Обнять котика</button>
+            </div>
+        </div>
+
+        <!-- как в старых добрых играх, которые мы обязательно пройдём вдвоём -->
+        <div class="crt" aria-hidden="true"></div>
+    </main>
+
+    <!-- вход в наш мир -->
+    <section class="overlay overlay--start is-open" id="startScreen">
+        <div class="panel">
+            <p class="panel__eyebrow">
+                маленькая история для <span data-her-name>Шырайлым</span>
+            </p>
+            <h1 class="logo">
+                <span data-pet-name>Солнышкам</span><span class="logo__sun" aria-hidden="true">☀️</span>
+            </h1>
+            <p class="panel__sub">«Мой мир — это ты»</p>
+            <p class="panel__text">
+                В этом городке спрятано 5 сердечек.
+                Каждое — несколько слов, которые я не устану тебе говорить.
+                А ещё тут живёт котик, который очень ждёт тебя 🐾
+            </p>
+            <button class="pixel-btn" id="startBtn" type="button">Начать приключение</button>
+            <p class="panel__controls">
+                <span><kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd></span>
+                <span>или</span>
+                <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span>
+                <span>— идти</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- самое главное письмо -->
+    <section class="overlay overlay--letter" id="letterScreen" aria-hidden="true">
+        <div class="heart-rain" id="heartRain" aria-hidden="true"></div>
+        <div class="letter" id="letterCard">
+            <p class="letter__eyebrow" id="letterTo">Шырайлым ☀️</p>
+            <h2 class="letter__title">Ты — моё самое любимое приключение</h2>
+            <p class="letter__text" id="letterText"></p>
+            <p class="letter__sign" id="letterSign">— твой Абоська 💕</p>
+            <button class="pixel-btn" id="restartBtn" type="button" hidden>Пройти ещё раз</button>
+            <p class="letter__skip">кликни по письму, чтобы показать всё сразу</p>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
